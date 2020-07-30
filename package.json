@@ -1,0 +1,29 @@
+{
+  "name": "docsify-up",
+  "version": "1.0.0",
+  "description": "- https://documentup.com/jeromegn/documentup\r - https://github.com/docsifyjs/docsify/issues/217",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MLH-Fellowship/docsify-up.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MLH-Fellowship/docsify-up/issues"
+  },
+  "homepage": "https://github.com/MLH-Fellowship/docsify-up#readme",
+  "devDependencies": {
+    "@commitlint/cli": "^9.1.1",
+    "@commitlint/config-conventional": "^9.1.1",
+    "husky": "^4.2.5"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  }
+}
