@@ -105,3 +105,6 @@ dist
 
 # Misc.
 .DS_Store
+
+# Docs output
+docs

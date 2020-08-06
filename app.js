@@ -6,6 +6,8 @@ const fs = require("fs");
 const app = express();
 const port = 3000;
 
+app.use('/docs', express.static('docs'))
+
 app.get("/", (req, res) => res.send("Hello World!"));
 
 app.get("/:user/:repo", (req, res) => {
@@ -43,6 +45,7 @@ app.get("/:user/:repo", (req, res) => {
     res.send(readmeData.data);
   }
 });
+
 
 app.listen(port, () =>
   console.log(`Example app listening at http://localhost:${port}`)
