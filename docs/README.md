@@ -1,4 +1,4 @@
-# FastDocs
+# fastdocs
 
 Automatically generated [Docsify](https://docsify.js.org/#/) flavored documentation sites for your markdown files! We are a README-as-a-Service project, spin up beautiful versions of your documentation in seconds! And the best part? We are completely free and open-source!
 
