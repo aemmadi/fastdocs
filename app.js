@@ -7,7 +7,8 @@ const hasha = require("hasha");
 const app = express();
 const port = 3000;
 
-app.get("/", (req, res) => res.send("Hello World!"));
+// app.get("/", (req, res) => res.send("Hello World!"));
+app.use("/", express.static("docs"));
 
 app.get("/:user/:repo/compile", (req, res) => {
   const user = req.params.user;
@@ -17,7 +18,7 @@ app.get("/:user/:repo/compile", (req, res) => {
   });
 });
 
-// Gets readme contents and generates /docs/<files> with docsify enabled to render
+// Gets readme contents and generates /_docs/<files> with docsify enabled to render
 async function getReadme(user, repo) {
   const readme = await axios.get(
     `https://api.github.com/repos/${user}/${repo}/readme`
@@ -25,15 +26,15 @@ async function getReadme(user, repo) {
   const readmeUrl = readme.data.download_url;
   const readmeData = await axios.get(readmeUrl);
 
-  if (!fs.existsSync("./docs/")) fs.mkdirSync("./docs/");
+  if (!fs.existsSync("./_docs/")) fs.mkdirSync("./_docs/");
 
-  if (!fs.existsSync(`./docs/${user}-${repo}/`))
-    fs.mkdirSync(`./docs/${user}-${repo}/`);
+  if (!fs.existsSync(`./_docs/${user}-${repo}/`))
+    fs.mkdirSync(`./_docs/${user}-${repo}/`);
 
   // Write file only if github readme is different from local copy
   if (isDiffReadme()) {
     fs.writeFileSync(
-      `./docs/${user}-${repo}/README.md`,
+      `./_docs/${user}-${repo}/README.md`,
       readmeData.data,
       function (err) {
         if (err) throw err;
@@ -44,12 +45,12 @@ async function getReadme(user, repo) {
 
   const htmlData = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><title>${repo}</title><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/><meta name="description" content="Description"/> <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0"/> <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css"/> </head> <body> <div id="app"></div><script>window.$docsify={name: '${repo}', repo: '${user}/${repo}'}; </script> <script src="//cdn.jsdelivr.net/npm/docsify@4"></script> </body></html>`;
 
-  fs.writeFileSync(`./docs/${user}-${repo}/.nojekyll`, "", function (err) {
+  fs.writeFileSync(`./_docs/${user}-${repo}/.nojekyll`, "", function (err) {
     if (err) throw err;
     console.log("Generated nojekyll");
   });
 
-  fs.writeFileSync(`./docs/${user}-${repo}/index.html`, htmlData, function (
+  fs.writeFileSync(`./_docs/${user}-${repo}/index.html`, htmlData, function (
     err
   ) {
     if (err) throw err;
@@ -63,7 +64,7 @@ async function getReadme(user, repo) {
 async function isDiffReadme(user, repo, readmeData) {
   try {
     const localReadmeHash = hasha.fromFileSync(
-      `./docs/${user}-${repo}/README.md`,
+      `./_docs/${user}-${repo}/README.md`,
       { algorithm: "md5" }
     );
   } catch (error) {
@@ -77,7 +78,7 @@ async function isDiffReadme(user, repo, readmeData) {
 
 // Serves the compiled docs
 async function serveDocs(user, repo) {
-  app.use(`/${user}/${repo}`, express.static(`./docs/${user}-${repo}`));
+  app.use(`/${user}/${repo}`, express.static(`./_docs/${user}-${repo}`));
 }
 
 app.listen(port, () =>
