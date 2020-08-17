@@ -7,11 +7,20 @@ const hasha = require("hasha");
 const app = express();
 const port = 3000;
 
+let defaultConfig = {
+  name: "",
+  description: "Description",
+  plugins: [],
+  theme: "",
+};
+
 app.get("/", (req, res) => res.send("Hello World!"));
 
 app.get("/:user/:repo/compile", (req, res) => {
   const user = req.params.user;
   const repo = req.params.repo;
+  defaultConfig.name = repo;
+
   getReadme(user, repo).then(() => {
     res.send(`Successfully Compiled Docs! View them at /${user}/${repo}`);
   });
@@ -22,6 +31,12 @@ async function getReadme(user, repo) {
   const readme = await axios.get(
     `https://api.github.com/repos/${user}/${repo}/readme`
   );
+  const gitRepo = await axios.get(
+    `https://api.github.com/repos/${user}/${repo}/contents`
+  );
+
+  const config = JSON.parse(await getConfig(gitRepo.data));
+  console.log(config);
   const readmeUrl = readme.data.download_url;
   const readmeData = await axios.get(readmeUrl);
 
@@ -42,7 +57,17 @@ async function getReadme(user, repo) {
     );
   }
 
-  const htmlData = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><title>${repo}</title><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/><meta name="description" content="Description"/> <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0"/> <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css"/> </head> <body> <div id="app"></div><script>window.$docsify={name: '${repo}', repo: '${user}/${repo}'}; </script> <script src="//cdn.jsdelivr.net/npm/docsify@4"></script> </body></html>`;
+  let scriptPlugin = " ";
+  if (config.plugins.length > 0) {
+    config.plugins.forEach((plugin, index) => {
+      if (plugin == "docsify-copy-code") {
+        scriptPlugin +=
+          '<script src="//cdn.jsdelivr.net/npm/docsify-copy-code"></script> ';
+      }
+    });
+  }
+
+  const htmlData = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><title>${repo}</title><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/><meta name="description" content="${config.description}"/> <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0"/> <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css"/> </head> <body> <div id="app"></div><script>window.$docsify={name: '${repo}', repo: '${user}/${repo}'}; </script> <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>${scriptPlugin}</body></html>`;
 
   fs.writeFileSync(`./docs/${user}-${repo}/.nojekyll`, "", function (err) {
     if (err) throw err;
@@ -58,6 +83,22 @@ async function getReadme(user, repo) {
 
   // Expose generated static files to web
   await serveDocs(user, repo);
+}
+
+async function getConfig(gitRepo) {
+  let configUrl = "";
+  gitRepo.forEach((file, index) => {
+    if (file.name == ".fastdocs.json") {
+      configUrl = file.download_url;
+    }
+  });
+
+  if (configUrl != "") {
+    const config = await axios.get(configUrl);
+    return config.data;
+  }
+
+  return defaultConfig;
 }
 
 async function isDiffReadme(user, repo, readmeData) {
