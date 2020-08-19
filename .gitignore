@@ -107,4 +107,4 @@ dist
 .DS_Store
 
 # Docs output
-docs
+_docs
