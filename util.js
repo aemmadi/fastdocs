@@ -26,12 +26,10 @@ function isDiffReadme(user, repo, readmeData) {
 // Writes all the required files
 async function writeDocs(user, repo, readmeData) {
   const config = await getConfig(user, repo);
-
-  if (isConfigDefault(config)) {
-    writeDocsWithDefaultConfig(user, repo, readmeData);
-  } else {
-    // TODO: if config is not default? --> plugin integration!!!
+  if (config) {
     writeDocsWithConfig(user, repo, readmeData, config);
+  } else {
+    writeDocsWithDefaultConfig(user, repo, readmeData);
   }
 }
 
@@ -119,11 +117,6 @@ function serveDocs(app, user, repo) {
   app.use(`/${user}/${repo}`, express.static(`./docs/${user}-${repo}`));
 }
 
-function isConfigDefault(config) {
-  if (config.name != "") return false;
-  return true;
-}
-
 async function getConfig(user, repo) {
   const gitRepo = await axios.get(
     `https://api.github.com/repos/${user}/${repo}/contents`
@@ -142,7 +135,7 @@ async function getConfig(user, repo) {
     const config = await axios.get(configUrl);
     return config.data;
   }
-  return mainConfig;
+  return "";
 }
 
 async function compileDocs(user, repo) {
