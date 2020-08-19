@@ -2,7 +2,7 @@
   "name": "docsify-up",
   "version": "1.0.0",
   "description": "- https://documentup.com/jeromegn/documentup\r - https://github.com/docsifyjs/docsify/issues/217",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
