@@ -4,6 +4,7 @@
   "description": "- https://documentup.com/jeromegn/documentup\r - https://github.com/docsifyjs/docsify/issues/217",
   "main": "app.js",
   "scripts": {
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
