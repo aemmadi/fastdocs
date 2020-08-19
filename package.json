@@ -1,7 +1,7 @@
 {
-  "name": "docsify-up",
+  "name": "fastdocs",
   "version": "1.0.0",
-  "description": "- https://documentup.com/jeromegn/documentup\r - https://github.com/docsifyjs/docsify/issues/217",
+  "description": "Automatically generated Docsify flavored documentation sites for your markdown files!",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MLH-Fellowship/docsify-up.git"
+    "url": "git+https://github.com/MLH-Fellowship/fastdocs.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/MLH-Fellowship/docsify-up/issues"
+    "url": "https://github.com/MLH-Fellowship/fastdocs/issues"
   },
-  "homepage": "https://github.com/MLH-Fellowship/docsify-up#readme",
+  "homepage": "https://github.com/MLH-Fellowship/fastdocs#readme",
   "devDependencies": {
     "@commitlint/cli": "^9.1.1",
     "@commitlint/config-conventional": "^9.1.1",
