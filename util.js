@@ -9,9 +9,9 @@ let mainConfig = require("./config.json");
 
 // Compares local and remote readme for changes
 function isDiffReadme(user, repo, readmeData) {
-  if (fs.existsSync(`./docs/${user}-${repo}/README.md`)) {
+  if (fs.existsSync(`./_docs/${user}-${repo}/README.md`)) {
     const localReadmeHash = hasha.fromFileSync(
-      `./docs/${user}-${repo}/README.md`,
+      `./_docs/${user}-${repo}/README.md`,
       { algorithm: "md5" }
     );
     const remoteReadmeHash = hasha(readmeData, { algorithm: "md5" });
@@ -36,14 +36,14 @@ async function writeDocs(user, repo, readmeData) {
 async function writeDocsWithDefaultConfig(user, repo, readmeData) {
   const htmlData = docsify.generateHTML(user, repo);
 
-  fs.writeFileSync(`./docs/${user}-${repo}/README.md`, readmeData, function (
+  fs.writeFileSync(`./_docs/${user}-${repo}/README.md`, readmeData, function (
     err
   ) {
     if (err) throw err;
     console.log("Generated ReadMe!");
   });
 
-  fs.writeFileSync(`./docs/${user}-${repo}/index.html`, htmlData, function (
+  fs.writeFileSync(`./_docs/${user}-${repo}/index.html`, htmlData, function (
     err
   ) {
     if (err) throw err;
@@ -69,14 +69,14 @@ async function writeDocsWithConfig(user, repo, readmeData, config) {
 
     const htmlData = docsify.generateHtmlWithConfig(mainConfig);
 
-    fs.writeFileSync(`./docs/${user}-${repo}/README.md`, readmeData, function (
+    fs.writeFileSync(`./_docs/${user}-${repo}/README.md`, readmeData, function (
       err
     ) {
       if (err) throw err;
       console.log("Generated ReadMe!");
     });
 
-    fs.writeFileSync(`./docs/${user}-${repo}/index.html`, htmlData, function (
+    fs.writeFileSync(`./_docs/${user}-${repo}/index.html`, htmlData, function (
       err
     ) {
       if (err) throw err;
@@ -87,7 +87,7 @@ async function writeDocsWithConfig(user, repo, readmeData, config) {
   }
 }
 
-// Gets readme contents and generates /docs/<files> with docsify enabled to render
+// Gets readme contents and generates /_docs/<files> with docsify enabled to render
 async function getReadme(user, repo) {
   mainConfig.user = user;
   mainConfig.repo = repo;
@@ -98,12 +98,12 @@ async function getReadme(user, repo) {
   const readmeUrl = readme.data.download_url;
   const readmeData = await axios.get(readmeUrl);
 
-  if (!fs.existsSync("./docs/")) {
-    fs.mkdirSync("./docs/");
+  if (!fs.existsSync("./_docs/")) {
+    fs.mkdirSync("./_docs/");
   }
 
-  if (!fs.existsSync(`./docs/${user}-${repo}/`)) {
-    fs.mkdirSync(`./docs/${user}-${repo}/`);
+  if (!fs.existsSync(`./_docs/${user}-${repo}/`)) {
+    fs.mkdirSync(`./_docs/${user}-${repo}/`);
   }
 
   // Write file only if github readme is different from local copy
@@ -114,7 +114,7 @@ async function getReadme(user, repo) {
 
 // Serves the compiled docs
 function serveDocs(app, user, repo) {
-  app.use(`/${user}/${repo}`, express.static(`./docs/${user}-${repo}`));
+  app.use(`/${user}/${repo}`, express.static(`./_docs/${user}-${repo}`));
 }
 
 async function getConfig(user, repo) {
