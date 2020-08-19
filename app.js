@@ -3,7 +3,7 @@ const express = require("express");
 const util = require("./util");
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 app.use("/", express.static("docs"));
 
@@ -17,6 +17,4 @@ app.get("/:user/:repo/compile", (req, res) => {
   });
 });
 
-app.listen(port, () =>
-  console.log(`Example app listening at http://localhost:${port}`)
-);
+app.listen(port, () => console.log(`Deployed on port: ${port}`));
