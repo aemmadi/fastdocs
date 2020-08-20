@@ -20,6 +20,7 @@
   "devDependencies": {
     "@commitlint/cli": "^9.1.1",
     "@commitlint/config-conventional": "^9.1.1",
+    "dotenv": "^8.2.0",
     "husky": "^4.2.5"
   },
   "husky": {
@@ -28,6 +29,7 @@
     }
   },
   "dependencies": {
+    "aws-sdk": "^2.736.0",
     "axios": "^0.19.2",
     "express": "^4.17.1",
     "hasha": "^5.2.0"
