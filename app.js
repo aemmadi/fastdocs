@@ -7,13 +7,13 @@ const port = process.env.PORT || 3000;
 
 app.use("/", express.static("docs"));
 
-app.get("/:user/:repo/compile", (req, res) => {
+app.get("/:user/:repo", (req, res) => {
   const user = req.params.user;
   const repo = req.params.repo;
 
   util.compileDocs(user, repo).then(() => {
     util.serveDocs(app, user, repo);
-    res.send(`Successfully Compiled Docs! View them at /${user}/${repo}`);
+    res.redirect(`/docs/${user}/${repo}/`);
   });
 });
 

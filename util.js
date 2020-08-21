@@ -114,7 +114,7 @@ async function getReadme(user, repo) {
 
 // Serves the compiled docs
 function serveDocs(app, user, repo) {
-  app.use(`/${user}/${repo}`, express.static(`./_docs/${user}-${repo}`));
+  app.use(`/docs/${user}/${repo}`, express.static(`./_docs/${user}-${repo}`));
 }
 
 async function getConfig(user, repo) {
