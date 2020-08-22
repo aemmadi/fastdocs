@@ -4,17 +4,9 @@ Automatically generated [Docsify](https://docsify.js.org/#/) flavored documentat
 
 # Getting Started
 
-## Compile your docs
+To render your docs all you have to do is go to `/:user/:repo/` thats it! We automatically compile it with docsify and serve it at `/docs/:user/:repo/`.
 
-To add your repo documentation to FastDocs, you would need to visit `/:user/:repo/compile` first. This allows us to store your `README.md` and add [Docsify](https://docsify.js.org/#/) to render it.
-
-You need to visit this compile endpoint everytime you would like your fastdocs to be updated.
-
-## View your docs
-
-Once you have compiled your docs, you can view and share the pretty version of your docs at `/:user/:repo/`!
-
-That's it, it's that simple and fast!
+!> Make sure you **ALWAYS** go to `/:user/:repo` and not `/docs/:user/:repo`, the `/docs/` endpoint will not be available 24x7 due to hosting, but `/:user/:repo` always will be.
 
 # Configuration
 
