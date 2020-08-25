@@ -1,6 +1,11 @@
 # fastdocs
 
-Automatically generated [Docsify](https://docsify.js.org/#/) flavored documentation sites for your markdown files! We are a README-as-a-Service project, spin up beautiful versions of your documentation in seconds! And the best part? We are completely free and open-source!
+<a href="https://fastdocs.io">
+<img align="right" height="100" width="250" src="https://user-images.githubusercontent.com/33047045/91181192-3f5d5280-e6ae-11ea-8ce6-0b00d8e776f6.png"></a>
+<p>
+Automatically generated <a href="https://docsify.js.org/#/"> Docsify </a> flavored documentation sites for your markdown files! We are a README-as-a-Service project, spin up beautiful versions of your documentation in seconds! And the best part? We are completely free and open-source!
+</p>
+</img>
 
 # Getting Started
 
