@@ -91,24 +91,27 @@ async function writeDocsWithConfig(user, repo, readmeData, config) {
 async function getReadme(user, repo) {
   mainConfig.user = user;
   mainConfig.repo = repo;
+  try {
+    const readme = await axios.get(
+      `https://api.github.com/repos/${user}/${repo}/readme`
+    );
+    const readmeUrl = readme.data.download_url;
+    const readmeData = await axios.get(readmeUrl);
 
-  const readme = await axios.get(
-    `https://api.github.com/repos/${user}/${repo}/readme`
-  );
-  const readmeUrl = readme.data.download_url;
-  const readmeData = await axios.get(readmeUrl);
+    if (!fs.existsSync("./_docs/")) {
+      fs.mkdirSync("./_docs/");
+    }
 
-  if (!fs.existsSync("./_docs/")) {
-    fs.mkdirSync("./_docs/");
-  }
+    if (!fs.existsSync(`./_docs/${user}-${repo}/`)) {
+      fs.mkdirSync(`./_docs/${user}-${repo}/`);
+    }
 
-  if (!fs.existsSync(`./_docs/${user}-${repo}/`)) {
-    fs.mkdirSync(`./_docs/${user}-${repo}/`);
-  }
-
-  // Write file only if github readme is different from local copy
-  if (isDiffReadme(user, repo, readmeData.data)) {
-    await writeDocs(user, repo, readmeData.data);
+    // Write file only if github readme is different from local copy
+    if (isDiffReadme(user, repo, readmeData.data)) {
+      await writeDocs(user, repo, readmeData.data);
+    }
+  } catch (error) {
+    return;
   }
 }
 
