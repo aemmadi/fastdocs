@@ -3,15 +3,25 @@
 <a href="https://fastdocs.io">
 <img align="right" height="100" width="250" src="https://user-images.githubusercontent.com/33047045/91181192-3f5d5280-e6ae-11ea-8ce6-0b00d8e776f6.png"></a>
 <p>
-Automatically generated <a href="https://docsify.js.org/#/"> Docsify </a> flavored documentation sites for your markdown files! We are a README-as-a-Service project, spin up beautiful versions of your documentation in seconds! And the best part? We are completely free and open-source!
+Automatically generated <a href="https://docsify.js.org/#/">Docsify</a> flavored documentation sites for your markdown files! We are a README-as-a-Service project, spin up beautiful versions of your documentation in seconds! And the best part? We are completely free and open-source!
 </p>
 </img>
 
 # Getting Started
 
-To render your docs all you have to do is go to `/:user/:repo/` thats it! We automatically compile it with docsify and serve it at `/docs/:user/:repo/`.
+To render your docs all you have to do is go to `/:user/:repo/` thats it! Currently, fastdocs only supports GitHub.
 
-!> Make sure you **ALWAYS** go to `/:user/:repo` and not `/docs/:user/:repo`, the `/docs/` endpoint will not be available 24x7 due to hosting, but `/:user/:repo` always will be.
+?> `:user` should be replaced with your GitHub username
+
+?> `:repo` should be replaced with the name of the GitHub repository
+
+We automatically compile it with docsify and serve it at `/docs/:user/:repo/`.
+
+!> Make sure you **ALWAYS** go to `/:user/:repo` and not `/docs/:user/:repo`, the `/docs/` endpoint will not be available 24x7 due to hosting, but `/:user/:repo` always will be. Although we don't have an ETA, we are working on fixing this issue.
+
+_Example_:
+
+To render documentation from [https://github.com/cheeriojs/cheerio](https://github.com/cheeriojs/cheerio), where the `:user` is `cheeriojs` and `:repo` is `cheerio` you can simply go to [https://fastdocs.io/cheeriojs/cheerio](https://fastdocs.io/cheeriojs/cheerio) to view the rendered documentation!
 
 # Configuration
 
